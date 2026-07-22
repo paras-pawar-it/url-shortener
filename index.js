@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const { nanoid } = require("nanoid");
 const Url = require("./Url");
+const path = require("path");
 
 const app = express();
 
@@ -17,9 +18,11 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-// Route
+// Serve React frontend
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+
 app.get("/", (req, res) => {
-  res.send("Server + DB working");
+  res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
 });
 
 // Shorten a URL
@@ -95,6 +98,7 @@ app.get("/api/stats/:code", async (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
