@@ -1,19 +1,24 @@
-# Use Node.js as the base image 
+# Use Node.js as the base image
 FROM node:20
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json first
-COPY package*.json ./
+# ---- Build frontend first ----
+COPY frontend/package*.json ./frontend/
+RUN cd frontend && npm install
 
-# Install dependencies
+COPY frontend ./frontend
+RUN cd frontend && npm run build
+
+# ---- Backend setup ----
+COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the backend code
 COPY . .
 
-# The port your app listens on 
+# The port your app listens on
 EXPOSE 3000
 
 # Command to start the server
