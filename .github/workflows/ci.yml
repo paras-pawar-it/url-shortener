@@ -21,5 +21,10 @@ node-version: '20'
 -name: Install backend dependencies
 run: npm install
 
+-name: Install frontend dependencies 
+run: |
+    cd frontend
+    npm install
+
 -name: Build Docker image
 run: docker build -t url-shortener-backend .
