@@ -43,7 +43,7 @@ app.post("/api/shorten", async (req, res) => {
 
     res.status(201).json({
       shortCode: newUrl.shortCode,
-      shortUrl: `${process.env.PORT}/${newUrl.shortCode}`,
+      shortUrl: `${req.protocol}://${req.get("host")}/${newUrl.shortCode}`,
       originalUrl: newUrl.originalUrl,
     });
   } catch (err) {
